@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+						http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<var name="book" class="ie.cit.tom.entity.Book" />
+
+	<view-state 
+		id="bookTitle" 
+		view="bookForm1" 
+		model="flowScope.book"
+		transition-to="bookAuthor" />
+
+	<view-state 
+		id="bookAuthor" 
+		view="bookForm2" 
+		model="flowScope.book"
+		transition-to="bookPublisher" />
+
+	<view-state 
+		id="bookPublisher" 
+		view="bookForm3" 
+		model="flowScope.book"
+		transition-to="bookPublicationDate" />
+
+	<view-state 
+		id="bookPublicationDate" 
+		view="bookForm4" 
+		model="flowScope.book"
+		transition-to="bookIsbn" />
+
+	<view-state 
+		id="bookIsbn" 
+		view="bookForm5" 
+		model="flowScope.book"
+		transition-to="bookAvailable" />
+
+	<view-state 
+		id="bookAvailable" 
+		view="bookForm6" 
+		model="flowScope.book"
+		transition-to="bookList" />
+
+	<action-state id="bookAdd">
+		<evaluate expression="pizzaFlowActions.addBook(book)" />
+	</action-state>
+
+	<end-state id="bookList">
+		<output name="bookList" />
+	</end-state>
+	
+	<global-transitions>
+		<transition on="cancel" to="bookList" />
+	</global-transitions>
+</flow>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+						http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<var name="loan" class="ie.cit.tom.entity.Loan" />
+
+	<view-state 
+		id="loanMemberId" 
+		view="loanForm1" 
+		model="flowScope.loan"
+		transition-to="loanBookId" />
+
+	<view-state 
+		id="loanBookId" 
+		view="loanForm2" 
+		model="flowScope.loan"
+		transition-to="loanLoanDate" />
+
+	<view-state 
+		id="loanLoanDate" 
+		view="loanForm3" 
+		model="flowScope.loan"
+		transition-to="loanReturnDate" />
+
+	<view-state 
+		id="loanReturnDate" 
+		view="loanForm4" 
+		model="flowScope.loan"
+		transition-to="loanFine" />
+
+	<view-state 
+		id="loanFine" 
+		view="loanForm5" 
+		model="flowScope.loan"
+		transition-to="loanList" />
+
+	<action-state id="loanAdd">
+		<evaluate expression="pizzaFlowActions.addLoan(loan)" />
+	</action-state>
+
+	<end-state id="loanList">
+		<output name="loanList" />
+	</end-state>
+	
+	<global-transitions>
+		<transition on="cancel" to="loanList" />
+	</global-transitions>
+</flow>

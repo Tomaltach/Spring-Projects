@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="bookService" class="ie.cit.tom.service.impl.BookServiceImpl">
+		<constructor-arg ref="memberDao" />
+		<constructor-arg ref="bookDao" />
+		<constructor-arg ref="loanDao" />
+	</bean>
+	<bean id="bookDao" class="ie.cit.tom.dao.impl.HibernateBookDao">
+		<constructor-arg ref="sessionFactory" />
+	</bean>
+
+	<bean id="loanService" class="ie.cit.tom.service.impl.LoanServiceImpl">
+		<constructor-arg ref="loanDao" />
+		<constructor-arg ref="bookDao" />
+		<constructor-arg ref="memberDao" />
+	</bean>
+	<bean id="loanDao" class="ie.cit.tom.dao.impl.HibernateLoanDao">
+		<constructor-arg ref="sessionFactory" />
+	</bean>
+
+	<bean id="memberService" class="ie.cit.tom.service.impl.MemberServiceImpl">
+		<constructor-arg ref="memberDao" />
+		<constructor-arg ref="loanDao" />
+		<constructor-arg ref="userDao" />
+		<constructor-arg ref="authorityDao" />
+	</bean>
+	<bean id="memberDao" class="ie.cit.tom.dao.impl.HibernateMemberDao">
+		<constructor-arg ref="sessionFactory" />
+	</bean>
+
+	<bean id="userService" class="ie.cit.tom.service.impl.UserServiceImpl">
+		<constructor-arg ref="userDao" />
+		<constructor-arg ref="memberDao" />
+	</bean>
+	<bean id="userDao" class="ie.cit.tom.dao.impl.HibernateUserDao">
+		<constructor-arg ref="sessionFactory" />
+	</bean>
+	
+	<bean id="authorityService" class="ie.cit.tom.service.impl.AuthorityServiceImpl">
+		<constructor-arg ref="authorityDao" />
+	</bean>
+	<bean id="authorityDao" class="ie.cit.tom.dao.impl.HibernateAuthorityDao">
+		<constructor-arg ref="sessionFactory" />
+	</bean>
+	
+	<bean id="queryService" class="ie.cit.tom.service.impl.QueryServiceImpl">
+		<constructor-arg ref="bookDao" />
+	</bean>
+	
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan">
+			<list>
+				<value>ie/cit/tom/entity</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+<!-- 
+	<aop:config>
+		<aop:pointcut id="ServiceOperations"
+			expression="execution(* ie.cit.larkin.service.*Service.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="ServiceOperations" />
+	</aop:config>
+ -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+</beans>

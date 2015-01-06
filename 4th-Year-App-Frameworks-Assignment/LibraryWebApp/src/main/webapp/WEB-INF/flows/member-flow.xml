@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+						http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<var name="member" class="ie.cit.tom.entity.Member" />
+
+	<view-state 
+		id="memberName" 
+		view="memberForm1" 
+		model="flowScope.member"
+		transition-to="memberAddress1" />
+
+	<view-state
+		id="memberAddress1"
+		view="memberForm2" 
+		model="flowScope.member"
+		transition-to="memberAddress2" />
+
+	<view-state 
+		id="memberAddress2" 
+		view="memberForm3" 
+		model="flowScope.member"
+		transition-to="memberTown" />
+
+	<view-state 
+		id="memberTown" 
+		view="memberForm4" 
+		model="flowScope.member"
+		transition-to="memberContactNumber" />
+
+	<view-state 
+		id="memberContactNumber" 
+		view="memberForm5" 
+		model="flowScope.member"
+		transition-to="memberBookAllowance" />
+
+	<view-state 
+		id="memberAllowance" 
+		view="memberForm6" 
+		model="flowScope.member"
+		transition-to="memberBalance" />
+
+	<view-state 
+		id="memberBalance" 
+		view="memberForm7" 
+		model="flowScope.member"
+		transition-to="memberActive" />
+
+	<view-state 
+		id="memberActive" 
+		view="memberForm8" 
+		model="flowScope.member"
+		transition-to="memberList" />
+
+	<action-state id="memberAdd">
+		<evaluate expression="pizzaFlowActions.addMember(member)" />
+	</action-state>
+
+	<end-state id="memberList">
+		<output name="memberList" />
+	</end-state>
+	
+	<global-transitions>
+		<transition on="cancel" to="memberList" />
+	</global-transitions>
+</flow>
