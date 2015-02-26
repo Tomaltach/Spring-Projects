@@ -1,0 +1,28 @@
+@CHARSET "UTF-8";
+
+body {
+	background-color: #555;
+	margin-top:40px;
+}
+
+div#mainWrapper {
+	width: 900px;
+	margin: auto;	
+	background-color: #fff;
+	padding:15px;
+}
+
+div#header {
+	border-bottom:2px #999 solid;
+}
+
+.menu {
+}
+
+.mainContent {
+}
+
+div#footer {
+	border-top:2px #999 solid;
+	padding-top:20px;
+}
