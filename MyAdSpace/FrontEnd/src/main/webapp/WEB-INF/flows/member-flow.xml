@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow
+						http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<var name="member" class="com.tom.myadspace.entity.Member" />
+
+	<view-state id="memberUserName"	view="memberForm1" model="flowScope.member">
+		<transition on="memberUserName" to="memberFirstName" />
+	</view-state>
+
+	<view-state id="memberFirstName" view="memberForm2" model="flowScope.member">
+		<transition on="memberFirstName" to="memberLastName" />
+	</view-state>
+
+	<view-state id="memberLastName" view="memberForm3" model="flowScope.member">
+		<transition on="memberLastName" to="memberMobileNumber" />
+	</view-state>
+
+	<view-state id="memberMobileNumber" view="memberForm4" model="flowScope.member">
+		<transition on="memberMobileNumber" to="memberEmailAddress" />
+	</view-state>
+
+	<view-state id="memberEmailAddress" view="memberForm5" model="flowScope.member">
+		<transition on="memberEmailAddress" to="memberLocation" />
+	</view-state>
+
+	<view-state id="memberLocation" view="memberForm6" model="flowScope.member">
+		<transition on="memberLocation" to="memberActive" />
+	</view-state>
+
+	<view-state id="memberActive" view="memberForm7" model="flowScope.member">
+		<transition on="memberActive" to="memberList" />
+	</view-state>
+
+	<action-state id="memberAdd">
+		<evaluate expression="pizzaFlowActions.addMember(member)" />
+	</action-state>
+
+	<end-state id="memberList">
+		<output name="memberList" />
+	</end-state>
+	
+	<global-transitions>
+		<transition on="cancel" to="memberList" />
+	</global-transitions>
+</flow>
